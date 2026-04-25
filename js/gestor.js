@@ -1,11 +1,11 @@
 import { auth, db } from "./firebase.js";
-import {
-  onAuthStateChanged,
-  signOut
-} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
 import { protegerPagina } from "./proteger.js";
+import { configurarLogout } from "./logout.js";
 
-protegerPagina("gestor");
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
 import {
   collection,
   query,
@@ -14,7 +14,9 @@ import {
   orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
-const btnSair = document.getElementById("btnSair");
+protegerPagina("gestor");
+configurarLogout();
+
 const listaFretes = document.getElementById("listaFretes");
 
 let usuarioAtual = null;
@@ -26,15 +28,12 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   usuarioAtual = user;
-  carregarFretes();
-});
-
-btnSair.addEventListener("click", async () => {
-  await signOut(auth);
-  window.location.href = "index.html";
+  await carregarFretes();
 });
 
 async function carregarFretes() {
+  if (!listaFretes) return;
+
   listaFretes.innerHTML = "<p>Carregando fretes...</p>";
 
   try {
@@ -65,8 +64,13 @@ async function carregarFretes() {
         <p><strong>Carga:</strong> ${frete.carga}</p>
         <p><strong>Peso:</strong> ${frete.peso}</p>
         <p><strong>Valor:</strong> R$ ${Number(frete.valor).toFixed(2)}</p>
+        <p><strong>Caminhão:</strong> ${frete.tipoCaminhao}</p>
+        <p><strong>Carroceria:</strong> ${frete.carroceria}</p>
         <p><strong>Status:</strong> ${frete.status}</p>
-        <a class="btn primary" href="frete.html?id=${id}">Ver detalhes</a>
+
+        <div class="actions">
+          <a class="btn primary" href="frete.html?id=${id}">Ver detalhes</a>
+        </div>
       `;
 
       listaFretes.appendChild(card);
