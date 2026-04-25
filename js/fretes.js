@@ -90,7 +90,10 @@ function renderizarFretes(fretes) {
       <p><strong>Valor:</strong> R$ ${Number(frete.valor).toFixed(2)}</p>
       <p><strong>Caminhão:</strong> ${frete.tipoCaminhao}</p>
       <p><strong>Carroceria:</strong> ${frete.carroceria}</p>
+     <div class="actions">
       <button class="btn primary" data-id="${frete.id}">Tenho interesse</button>
+      <a class="btn secondary" href="frete.html?id=${frete.id}">Ver detalhes</a>
+    </div>
     `;
 
     const botao = card.querySelector("button");
