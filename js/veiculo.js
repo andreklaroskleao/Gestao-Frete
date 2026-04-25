@@ -6,6 +6,9 @@ import {
   getDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
+import { protegerPagina } from "./proteger.js";
+
+protegerPagina("motorista");
 
 const form = document.getElementById("formVeiculo");
 const mensagem = document.getElementById("mensagem");
