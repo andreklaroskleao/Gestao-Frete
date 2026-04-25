@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meu Veículo - Gestão Frete</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h2>Gestão Frete</h2>
+    <a href="motorista.html" class="btn small secondary">Voltar</a>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h1>Meu Veículo</h1>
+
+      <form id="formVeiculo" class="form">
+        <input type="text" id="cidadeAtual" placeholder="Cidade atual" required />
+        <input type="text" id="estadoAtual" placeholder="Estado atual" required />
+
+        <select id="disponivel" required>
+          <option value="true">Disponível para frete</option>
+          <option value="false">Indisponível no momento</option>
+        </select>
+
+        <select id="tipoCaminhao" required>
+          <option value="">Tipo de caminhão</option>
+          <option value="vuc">VUC</option>
+          <option value="toco">Toco</option>
+          <option value="truck">Truck</option>
+          <option value="carreta">Carreta</option>
+          <option value="bitrem">Bitrem</option>
+          <option value="rodotrem">Rodotrem</option>
+        </select>
+
+        <select id="carroceria" required>
+          <option value="">Tipo de carroceria</option>
+          <option value="bau">Baú</option>
+          <option value="sider">Sider</option>
+          <option value="graneleiro">Graneleiro</option>
+          <option value="grade_baixa">Grade baixa</option>
+          <option value="prancha">Prancha</option>
+          <option value="tanque">Tanque</option>
+          <option value="cacamba">Caçamba</option>
+          <option value="frigorifico">Frigorífico</option>
+        </select>
+
+        <input type="text" id="capacidade" placeholder="Capacidade aproximada. Ex: 12 toneladas" required />
+        <input type="text" id="placa" placeholder="Placa do veículo" required />
+        <input type="text" id="whatsapp" placeholder="WhatsApp" required />
+
+        <button type="submit" class="btn primary">Salvar veículo</button>
+      </form>
+
+      <p id="mensagem"></p>
+    </section>
+  </main>
+
+  <script type="module" src="js/veiculo.js"></script>
+</body>
+</html>
