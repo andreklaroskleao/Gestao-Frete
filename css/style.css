@@ -208,3 +208,132 @@ hr {
     flex-wrap: wrap;
   }
 }
+
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(2, 6, 23, 0.96);
+  color: #fff;
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #1e293b;
+}
+
+.app-header div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.app-header strong {
+  font-size: 18px;
+}
+
+.app-header span {
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #111827, #1e293b);
+  border: 1px solid #334155;
+  border-radius: 22px;
+  padding: 24px;
+  margin-bottom: 20px;
+  display: grid;
+  gap: 18px;
+}
+
+.welcome-card h1 {
+  margin: 0 0 8px;
+  font-size: 30px;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.dash-card {
+  background: #111827;
+  border: 1px solid #334155;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 20px;
+  padding: 22px;
+  transition: 0.2s;
+}
+
+.dash-card:hover {
+  transform: translateY(-2px);
+  border-color: #22c55e;
+}
+
+.dash-icon {
+  display: block;
+  font-size: 34px;
+  margin-bottom: 12px;
+}
+
+.dash-card h3 {
+  margin: 0 0 8px;
+}
+
+.dash-card p {
+  margin: 0;
+  color: #cbd5e1;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.badge.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.check-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #e5e7eb;
+  font-size: 15px;
+}
+
+.check-line input {
+  width: auto;
+}
+
+@media (min-width: 760px) {
+  .welcome-card {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
