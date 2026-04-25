@@ -1,5 +1,6 @@
 import { auth, db } from "./firebase.js";
 import { protegerPagina } from "./proteger.js";
+import { configurarEstadoCidade } from "./ibge.js";
 
 import {
   onAuthStateChanged
@@ -12,6 +13,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
 protegerPagina("gestor");
+
+configurarEstadoCidade("origemEstado", "origemCidade");
+configurarEstadoCidade("destinoEstado", "destinoCidade");
 
 const form = document.getElementById("formFrete");
 const mensagem = document.getElementById("mensagem");
@@ -36,17 +40,27 @@ if (form) {
       return;
     }
 
+    const origemEstado = document.getElementById("origemEstado").value;
+    const origemCidade = document.getElementById("origemCidade").value;
+    const destinoEstado = document.getElementById("destinoEstado").value;
+    const destinoCidade = document.getElementById("destinoCidade").value;
+
+    if (!origemEstado || !origemCidade || !destinoEstado || !destinoCidade) {
+      mensagem.textContent = "Selecione origem e destino corretamente.";
+      return;
+    }
+
     mensagem.textContent = "Publicando frete...";
 
     const frete = {
       gestorId: usuarioAtual.uid,
 
-      origemCidade: document.getElementById("origemCidade").value.trim(),
-      origemEstado: document.getElementById("origemEstado").value.trim(),
+      origemCidade,
+      origemEstado,
       enderecoColeta: document.getElementById("enderecoColeta").value.trim(),
 
-      destinoCidade: document.getElementById("destinoCidade").value.trim(),
-      destinoEstado: document.getElementById("destinoEstado").value.trim(),
+      destinoCidade,
+      destinoEstado,
       enderecoEntrega: document.getElementById("enderecoEntrega").value.trim(),
 
       carga: document.getElementById("carga").value.trim(),
@@ -68,6 +82,12 @@ if (form) {
       mensagem.textContent = "Frete publicado com sucesso!";
 
       form.reset();
+
+      document.getElementById("origemCidade").disabled = true;
+      document.getElementById("origemCidade").innerHTML = `<option value="">Selecione primeiro o estado</option>`;
+
+      document.getElementById("destinoCidade").disabled = true;
+      document.getElementById("destinoCidade").innerHTML = `<option value="">Selecione primeiro o estado</option>`;
 
       setTimeout(() => {
         window.location.href = "gestor.html";
