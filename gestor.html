@@ -7,31 +7,90 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h2>Gestão Frete</h2>
-    <button id="btnSair" class="btn small danger">Sair</button>
+  <header class="app-header">
+    <div>
+      <strong>Gestão Frete</strong>
+      <span>Painel do Gestor</span>
+    </div>
+    <button id="btnSair" class="btn danger small">Sair</button>
   </header>
 
-  <main class="container">
-    <section class="panel">
-      <h1>Painel do Gestor</h1>
-      <p>Cadastre e acompanhe seus fretes.</p>
+  <main class="app-container">
+    <section class="welcome-card">
+      <div>
+        <h1>Painel do Gestor</h1>
+        <p>Publique fretes, acompanhe interessados, aprove motoristas e monitore viagens.</p>
+      </div>
+      <a href="novo-frete.html" class="btn primary">Cadastrar novo frete</a>
+    </section>
 
-      <div class="grid">
-        <a href="novo-frete.html" class="menu-card">
-          <h3>Novo Frete</h3>
-          <p>Cadastrar uma nova carga.</p>
-        </a>
+    <section class="stats-grid">
+      <div class="stat-card">
+        <span>Total</span>
+        <strong id="totalFretes">0</strong>
+      </div>
 
-        <a href="gestor.html" class="menu-card">
-          <h3>Meus Fretes</h3>
-          <p>Ver fretes publicados.</p>
-        </a>
+      <div class="stat-card">
+        <span>Abertos</span>
+        <strong id="fretesAbertos">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Em andamento</span>
+        <strong id="fretesAndamento">0</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Concluídos</span>
+        <strong id="fretesConcluidos">0</strong>
       </div>
     </section>
 
+    <section class="dashboard-grid gestor-menu">
+      <a href="novo-frete.html" class="dash-card">
+        <span class="dash-icon">➕</span>
+        <h3>Novo frete</h3>
+        <p>Cadastre origem, destino, carga, valor e veículo necessário.</p>
+      </a>
+
+      <a href="#listaFretes" class="dash-card">
+        <span class="dash-icon">📦</span>
+        <h3>Meus fretes</h3>
+        <p>Veja todos os fretes publicados e seus status.</p>
+      </a>
+
+      <a href="#listaFretes" class="dash-card">
+        <span class="dash-icon">🙋</span>
+        <h3>Interessados</h3>
+        <p>Acesse os detalhes do frete para aprovar caminhoneiros.</p>
+      </a>
+
+      <a href="#listaFretes" class="dash-card">
+        <span class="dash-icon">📍</span>
+        <h3>Rastreamento</h3>
+        <p>Acompanhe a localização do motorista aprovado em tempo real.</p>
+      </a>
+    </section>
+
     <section class="panel">
-      <h2>Fretes cadastrados</h2>
+      <div class="section-header">
+        <div>
+          <h2>Meus fretes</h2>
+          <p>Gerencie fretes abertos, em negociação, em viagem e concluídos.</p>
+        </div>
+
+        <select id="filtroStatusGestor">
+          <option value="">Todos os status</option>
+          <option value="aberto">Aberto</option>
+          <option value="em_negociacao">Em negociação</option>
+          <option value="motorista_aprovado">Motorista aprovado</option>
+          <option value="em_coleta">Em coleta</option>
+          <option value="em_viagem">Em viagem</option>
+          <option value="concluido">Concluído</option>
+          <option value="cancelado">Cancelado</option>
+        </select>
+      </div>
+
       <div id="listaFretes" class="lista"></div>
     </section>
   </main>
