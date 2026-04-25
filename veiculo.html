@@ -17,8 +17,13 @@
       <h1>Meu Veículo</h1>
 
       <form id="formVeiculo" class="form">
-        <input type="text" id="cidadeAtual" placeholder="Cidade atual" required />
-        <input type="text" id="estadoAtual" placeholder="Estado atual" required />
+        <select id="estadoAtual" required>
+          <option value="">Carregando estados...</option>
+        </select>
+
+        <select id="cidadeAtual" required disabled>
+          <option value="">Selecione primeiro o estado</option>
+        </select>
 
         <select id="disponivel" required>
           <option value="true">Disponível para frete</option>
