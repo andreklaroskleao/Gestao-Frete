@@ -18,13 +18,27 @@
 
       <form id="formFrete" class="form">
         <h3>Origem</h3>
-        <input type="text" id="origemCidade" placeholder="Cidade de origem" required />
-        <input type="text" id="origemEstado" placeholder="Estado de origem" required />
+
+        <select id="origemEstado" required>
+          <option value="">Carregando estados...</option>
+        </select>
+
+        <select id="origemCidade" required disabled>
+          <option value="">Selecione primeiro o estado</option>
+        </select>
+
         <input type="text" id="enderecoColeta" placeholder="Endereço completo da coleta" required />
 
         <h3>Destino</h3>
-        <input type="text" id="destinoCidade" placeholder="Cidade de destino" required />
-        <input type="text" id="destinoEstado" placeholder="Estado de destino" required />
+
+        <select id="destinoEstado" required>
+          <option value="">Carregando estados...</option>
+        </select>
+
+        <select id="destinoCidade" required disabled>
+          <option value="">Selecione primeiro o estado</option>
+        </select>
+
         <input type="text" id="enderecoEntrega" placeholder="Endereço completo da entrega" required />
 
         <h3>Carga</h3>
@@ -33,6 +47,7 @@
         <input type="number" id="valor" placeholder="Valor do frete" required />
 
         <h3>Veículo necessário</h3>
+
         <select id="tipoCaminhao" required>
           <option value="">Tipo de caminhão</option>
           <option value="vuc">VUC</option>
