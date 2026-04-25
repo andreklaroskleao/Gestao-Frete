@@ -16,24 +16,29 @@ export function protegerPagina(tipoPermitido) {
       return;
     }
 
-    const refUsuario = doc(db, "usuarios", user.uid);
-    const snapUsuario = await getDoc(refUsuario);
+    try {
+      const refUsuario = doc(db, "usuarios", user.uid);
+      const snapUsuario = await getDoc(refUsuario);
 
-    if (!snapUsuario.exists()) {
-      window.location.href = "login.html";
-      return;
-    }
-
-    const usuario = snapUsuario.data();
-
-    if (usuario.tipo !== tipoPermitido) {
-      alert("Você não tem permissão para acessar esta página.");
-
-      if (usuario.tipo === "gestor") {
-        window.location.href = "gestor.html";
-      } else {
-        window.location.href = "motorista.html";
+      if (!snapUsuario.exists()) {
+        window.location.href = "login.html";
+        return;
       }
+
+      const usuario = snapUsuario.data();
+
+      if (usuario.tipo !== tipoPermitido) {
+        alert("Você não tem permissão para acessar esta página.");
+
+        if (usuario.tipo === "gestor") {
+          window.location.href = "gestor.html";
+        } else {
+          window.location.href = "motorista.html";
+        }
+      }
+    } catch (erro) {
+      alert("Erro ao verificar permissão: " + erro.message);
+      window.location.href = "login.html";
     }
   });
 }
