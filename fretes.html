@@ -17,9 +17,24 @@
       <h1>Fretes disponíveis</h1>
 
       <div class="filters">
-        <input type="text" id="filtroOrigem" placeholder="Filtrar por origem" />
-        <input type="text" id="filtroDestino" placeholder="Filtrar por destino" />
+        <select id="filtroOrigemEstado">
+          <option value="">Origem: carregando estados...</option>
+        </select>
+
+        <select id="filtroOrigemCidade" disabled>
+          <option value="">Origem: selecione o estado</option>
+        </select>
+
+        <select id="filtroDestinoEstado">
+          <option value="">Destino: carregando estados...</option>
+        </select>
+
+        <select id="filtroDestinoCidade" disabled>
+          <option value="">Destino: selecione o estado</option>
+        </select>
+
         <button id="btnFiltrar" class="btn primary">Filtrar</button>
+        <button id="btnLimparFiltros" class="btn secondary">Limpar</button>
       </div>
 
       <div id="listaFretes" class="lista"></div>
