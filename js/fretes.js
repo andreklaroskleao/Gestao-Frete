@@ -1,5 +1,6 @@
 import { auth, db } from "./firebase.js";
 import { protegerPagina } from "./proteger.js";
+import { carregarEstados, carregarCidades } from "./ibge.js";
 
 import {
   onAuthStateChanged
@@ -19,9 +20,30 @@ protegerPagina("motorista");
 
 const listaFretes = document.getElementById("listaFretes");
 const btnFiltrar = document.getElementById("btnFiltrar");
+const btnLimparFiltros = document.getElementById("btnLimparFiltros");
+
+const filtroOrigemEstado = document.getElementById("filtroOrigemEstado");
+const filtroOrigemCidade = document.getElementById("filtroOrigemCidade");
+const filtroDestinoEstado = document.getElementById("filtroDestinoEstado");
+const filtroDestinoCidade = document.getElementById("filtroDestinoCidade");
 
 let usuarioAtual = null;
 let todosFretes = [];
+
+carregarEstados("filtroOrigemEstado");
+carregarEstados("filtroDestinoEstado");
+
+if (filtroOrigemEstado) {
+  filtroOrigemEstado.addEventListener("change", () => {
+    carregarCidades(filtroOrigemEstado.value, "filtroOrigemCidade");
+  });
+}
+
+if (filtroDestinoEstado) {
+  filtroDestinoEstado.addEventListener("change", () => {
+    carregarCidades(filtroDestinoEstado.value, "filtroDestinoCidade");
+  });
+}
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -35,6 +57,20 @@ onAuthStateChanged(auth, async (user) => {
 
 if (btnFiltrar) {
   btnFiltrar.addEventListener("click", () => {
+    aplicarFiltros();
+  });
+}
+
+if (btnLimparFiltros) {
+  btnLimparFiltros.addEventListener("click", () => {
+    filtroOrigemEstado.value = "";
+    filtroOrigemCidade.innerHTML = `<option value="">Origem: selecione o estado</option>`;
+    filtroOrigemCidade.disabled = true;
+
+    filtroDestinoEstado.value = "";
+    filtroDestinoCidade.innerHTML = `<option value="">Destino: selecione o estado</option>`;
+    filtroDestinoCidade.disabled = true;
+
     aplicarFiltros();
   });
 }
@@ -69,14 +105,18 @@ async function carregarFretes() {
 }
 
 function aplicarFiltros() {
-  const origem = document.getElementById("filtroOrigem")?.value.toLowerCase().trim() || "";
-  const destino = document.getElementById("filtroDestino")?.value.toLowerCase().trim() || "";
+  const origemEstado = filtroOrigemEstado?.value || "";
+  const origemCidade = filtroOrigemCidade?.value || "";
+  const destinoEstado = filtroDestinoEstado?.value || "";
+  const destinoCidade = filtroDestinoCidade?.value || "";
 
   const filtrados = todosFretes.filter((frete) => {
-    const origemTexto = `${frete.origemCidade} ${frete.origemEstado}`.toLowerCase();
-    const destinoTexto = `${frete.destinoCidade} ${frete.destinoEstado}`.toLowerCase();
+    const origemEstadoOk = !origemEstado || frete.origemEstado === origemEstado;
+    const origemCidadeOk = !origemCidade || frete.origemCidade === origemCidade;
+    const destinoEstadoOk = !destinoEstado || frete.destinoEstado === destinoEstado;
+    const destinoCidadeOk = !destinoCidade || frete.destinoCidade === destinoCidade;
 
-    return origemTexto.includes(origem) && destinoTexto.includes(destino);
+    return origemEstadoOk && origemCidadeOk && destinoEstadoOk && destinoCidadeOk;
   });
 
   renderizarFretes(filtrados);
