@@ -1,0 +1,50 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "fretes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "gestorId", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "fretes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "fretes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "origemEstado", "order": "ASCENDING" },
+        { "fieldPath": "origemCidade", "order": "ASCENDING" },
+        { "fieldPath": "destinoEstado", "order": "ASCENDING" },
+        { "fieldPath": "destinoCidade", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "interesses",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "freteId", "order": "ASCENDING" },
+        { "fieldPath": "status", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "veiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "motoristaId", "order": "ASCENDING" },
+        { "fieldPath": "ativo", "order": "ASCENDING" },
+        { "fieldPath": "criadoEm", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
