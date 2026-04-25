@@ -3,31 +3,38 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Meu Veículo - Gestão Frete</title>
+  <title>Meus Veículos - Gestão Frete</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h2>Gestão Frete</h2>
-    <a href="motorista.html" class="btn small secondary">Voltar</a>
+  <header class="app-header">
+    <div>
+      <strong>Gestão Frete</strong>
+      <span>Meus veículos</span>
+    </div>
+    <a href="motorista.html" class="btn secondary small">Voltar</a>
   </header>
 
-  <main class="container">
+  <main class="app-container">
+    <section class="welcome-card">
+      <div>
+        <h1>Meus veículos</h1>
+        <p>Cadastre mais de um veículo e escolha qual está disponível para fretes.</p>
+      </div>
+    </section>
+
     <section class="panel">
-      <h1>Meu Veículo</h1>
+      <h2>Cadastrar / editar veículo</h2>
 
       <form id="formVeiculo" class="form">
+        <input type="hidden" id="veiculoId" />
+
         <select id="estadoAtual" required>
           <option value="">Carregando estados...</option>
         </select>
 
         <select id="cidadeAtual" required disabled>
           <option value="">Selecione primeiro o estado</option>
-        </select>
-
-        <select id="disponivel" required>
-          <option value="true">Disponível para frete</option>
-          <option value="false">Indisponível no momento</option>
         </select>
 
         <select id="tipoCaminhao" required>
@@ -52,14 +59,32 @@
           <option value="frigorifico">Frigorífico</option>
         </select>
 
-        <input type="text" id="capacidade" placeholder="Capacidade aproximada. Ex: 12 toneladas" required />
+        <input type="text" id="capacidade" placeholder="Capacidade. Ex: 12 toneladas" required />
         <input type="text" id="placa" placeholder="Placa do veículo" required />
         <input type="text" id="whatsapp" placeholder="WhatsApp" required />
 
-        <button type="submit" class="btn primary">Salvar veículo</button>
+        <label class="check-line">
+          <input type="checkbox" id="principal" />
+          Definir como veículo principal
+        </label>
+
+        <label class="check-line">
+          <input type="checkbox" id="ativo" checked />
+          Veículo disponível para fretes
+        </label>
+
+        <div class="actions">
+          <button type="submit" class="btn primary">Salvar veículo</button>
+          <button type="button" id="btnLimpar" class="btn secondary">Novo cadastro</button>
+        </div>
       </form>
 
       <p id="mensagem"></p>
+    </section>
+
+    <section class="panel">
+      <h2>Veículos cadastrados</h2>
+      <div id="listaVeiculos" class="lista"></div>
     </section>
   </main>
 
