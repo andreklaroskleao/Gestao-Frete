@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel do Gestor - Gestão Frete</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h2>Gestão Frete</h2>
+    <button id="btnSair" class="btn small danger">Sair</button>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h1>Painel do Gestor</h1>
+      <p>Cadastre e acompanhe seus fretes.</p>
+
+      <div class="grid">
+        <a href="novo-frete.html" class="menu-card">
+          <h3>Novo Frete</h3>
+          <p>Cadastrar uma nova carga.</p>
+        </a>
+
+        <a href="gestor.html" class="menu-card">
+          <h3>Meus Fretes</h3>
+          <p>Ver fretes publicados.</p>
+        </a>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Fretes cadastrados</h2>
+      <div id="listaFretes" class="lista"></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/gestor.js"></script>
+</body>
+</html>
