@@ -35,7 +35,7 @@ export async function carregarEstados(selectEstadoId) {
 
   if (!selectEstado) return;
 
-  selectEstado.innerHTML = `<option value="">Carregando estados...</option>`;
+  selectEstado.innerHTML = '<option value="">Carregando estados...</option>';
 
   try {
     const resposta = await fetch(`${API_ESTADOS}?orderBy=nome`);
@@ -53,7 +53,7 @@ export async function carregarEstados(selectEstadoId) {
 }
 
 function preencherEstados(selectEstado, estados) {
-  selectEstado.innerHTML = `<option value="">Selecione o estado</option>`;
+  selectEstado.innerHTML = '<option value="">Selecione o estado</option>';
 
   estados.forEach((estado) => {
     const option = document.createElement("option");
@@ -69,13 +69,13 @@ export async function carregarCidades(estadoSigla, selectCidadeId, cidadeSelecio
   if (!selectCidade) return;
 
   if (!estadoSigla) {
-    selectCidade.innerHTML = `<option value="">Selecione primeiro o estado</option>`;
+    selectCidade.innerHTML = '<option value="">Selecione primeiro o estado</option>';
     selectCidade.disabled = true;
     return;
   }
 
   selectCidade.disabled = true;
-  selectCidade.innerHTML = `<option value="">Carregando cidades...</option>`;
+  selectCidade.innerHTML = '<option value="">Carregando cidades...</option>';
 
   try {
     const resposta = await fetch(`${API_ESTADOS}/${estadoSigla}/municipios?orderBy=nome`);
@@ -86,7 +86,7 @@ export async function carregarCidades(estadoSigla, selectCidadeId, cidadeSelecio
 
     const cidades = await resposta.json();
 
-    selectCidade.innerHTML = `<option value="">Selecione a cidade</option>`;
+    selectCidade.innerHTML = '<option value="">Selecione a cidade</option>';
 
     cidades.forEach((cidade) => {
       const option = document.createElement("option");
@@ -103,7 +103,7 @@ export async function carregarCidades(estadoSigla, selectCidadeId, cidadeSelecio
     selectCidade.disabled = false;
   } catch (erro) {
     console.error("Erro IBGE cidades:", erro);
-    selectCidade.innerHTML = `<option value="">Erro ao carregar cidades</option>`;
+    selectCidade.innerHTML = '<option value="">Erro ao carregar cidades</option>';
     selectCidade.disabled = true;
   }
 }
