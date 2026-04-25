@@ -1,5 +1,10 @@
 import { auth, db } from "./firebase.js";
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+import { protegerPagina } from "./proteger.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.4/firebase-auth.js";
+
 import {
   collection,
   query,
@@ -9,7 +14,6 @@ import {
   addDoc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
-import { protegerPagina } from "./proteger.js";
 
 protegerPagina("motorista");
 
@@ -29,11 +33,15 @@ onAuthStateChanged(auth, async (user) => {
   await carregarFretes();
 });
 
-btnFiltrar.addEventListener("click", () => {
-  aplicarFiltros();
-});
+if (btnFiltrar) {
+  btnFiltrar.addEventListener("click", () => {
+    aplicarFiltros();
+  });
+}
 
 async function carregarFretes() {
+  if (!listaFretes) return;
+
   listaFretes.innerHTML = "<p>Carregando fretes...</p>";
 
   try {
@@ -61,8 +69,8 @@ async function carregarFretes() {
 }
 
 function aplicarFiltros() {
-  const origem = document.getElementById("filtroOrigem").value.toLowerCase().trim();
-  const destino = document.getElementById("filtroDestino").value.toLowerCase().trim();
+  const origem = document.getElementById("filtroOrigem")?.value.toLowerCase().trim() || "";
+  const destino = document.getElementById("filtroDestino")?.value.toLowerCase().trim() || "";
 
   const filtrados = todosFretes.filter((frete) => {
     const origemTexto = `${frete.origemCidade} ${frete.origemEstado}`.toLowerCase();
@@ -75,6 +83,8 @@ function aplicarFiltros() {
 }
 
 function renderizarFretes(fretes) {
+  if (!listaFretes) return;
+
   if (fretes.length === 0) {
     listaFretes.innerHTML = "<p>Nenhum frete encontrado.</p>";
     return;
@@ -93,10 +103,11 @@ function renderizarFretes(fretes) {
       <p><strong>Valor:</strong> R$ ${Number(frete.valor).toFixed(2)}</p>
       <p><strong>Caminhão:</strong> ${frete.tipoCaminhao}</p>
       <p><strong>Carroceria:</strong> ${frete.carroceria}</p>
-     <div class="actions">
-      <button class="btn primary" data-id="${frete.id}">Tenho interesse</button>
-      <a class="btn secondary" href="frete.html?id=${frete.id}">Ver detalhes</a>
-    </div>
+
+      <div class="actions">
+        <button class="btn primary" data-id="${frete.id}">Tenho interesse</button>
+        <a class="btn secondary" href="frete.html?id=${frete.id}">Ver detalhes</a>
+      </div>
     `;
 
     const botao = card.querySelector("button");
@@ -107,6 +118,11 @@ function renderizarFretes(fretes) {
 }
 
 async function demonstrarInteresse(freteId) {
+  if (!usuarioAtual) {
+    alert("Você precisa estar logado.");
+    return;
+  }
+
   try {
     await addDoc(collection(db, "interesses"), {
       freteId,
