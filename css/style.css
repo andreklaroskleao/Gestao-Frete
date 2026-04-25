@@ -175,3 +175,17 @@ button {
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 20px 0;
+}
+
+@media (min-width: 700px) {
+  .filters {
+    grid-template-columns: 1fr 1fr auto;
+    align-items: center;
+  }
+}
