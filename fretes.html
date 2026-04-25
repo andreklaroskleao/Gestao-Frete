@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fretes Disponíveis - Gestão Frete</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <h2>Gestão Frete</h2>
+    <a href="motorista.html" class="btn small secondary">Voltar</a>
+  </header>
+
+  <main class="container">
+    <section class="panel">
+      <h1>Fretes disponíveis</h1>
+
+      <div class="filters">
+        <input type="text" id="filtroOrigem" placeholder="Filtrar por origem" />
+        <input type="text" id="filtroDestino" placeholder="Filtrar por destino" />
+        <button id="btnFiltrar" class="btn primary">Filtrar</button>
+      </div>
+
+      <div id="listaFretes" class="lista"></div>
+    </section>
+  </main>
+
+  <script type="module" src="js/fretes.js"></script>
+</body>
+</html>
