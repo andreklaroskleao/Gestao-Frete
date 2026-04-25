@@ -8,15 +8,20 @@ import {
   doc,
   getDoc,
   updateDoc,
+  setDoc,
   collection,
   query,
   where,
-  getDocs
+  getDocs,
+  onSnapshot,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js";
 
 const detalhesFrete = document.getElementById("detalhesFrete");
 const listaInteressados = document.getElementById("listaInteressados");
 const areaInteressados = document.getElementById("areaInteressados");
+const areaLocalizacao = document.getElementById("areaLocalizacao");
+const localizacaoMotorista = document.getElementById("localizacaoMotorista");
 const btnVoltar = document.getElementById("btnVoltar");
 
 const params = new URLSearchParams(window.location.search);
@@ -25,6 +30,7 @@ const freteId = params.get("id");
 let usuarioAtual = null;
 let dadosUsuario = null;
 let freteAtual = null;
+let intervaloLocalizacao = null;
 
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
@@ -80,6 +86,7 @@ async function carregarFrete() {
   };
 
   renderizarFrete();
+  configurarAreaLocalizacao();
 
   if (dadosUsuario.tipo === "gestor" && freteAtual.gestorId === usuarioAtual.uid) {
     await carregarInteressados();
@@ -146,6 +153,19 @@ function renderizarFrete() {
     `;
   }
 
+  if (motoristaAprovado && freteAtual.status !== "concluido" && freteAtual.status !== "cancelado") {
+    html += `
+      <hr>
+      <h3>Compartilhamento de localização</h3>
+      <p>Use durante a viagem para o gestor acompanhar sua posição.</p>
+
+      <div class="actions">
+        <button class="btn primary" onclick="iniciarLocalizacao()">Iniciar localização</button>
+        <button class="btn danger" onclick="pararLocalizacao()">Parar localização</button>
+      </div>
+    `;
+  }
+
   if (gestorDono) {
     html += `
       <hr>
@@ -162,6 +182,125 @@ function renderizarFrete() {
 
   detalhesFrete.innerHTML = html;
 }
+
+function configurarAreaLocalizacao() {
+  const gestorDono = dadosUsuario.tipo === "gestor" && freteAtual.gestorId === usuarioAtual.uid;
+  const motoristaAprovado = freteAtual.motoristaAprovadoId === usuarioAtual.uid;
+
+  if (!gestorDono && !motoristaAprovado) {
+    areaLocalizacao.style.display = "none";
+    return;
+  }
+
+  areaLocalizacao.style.display = "block";
+  acompanharLocalizacao();
+}
+
+function acompanharLocalizacao() {
+  const ref = doc(db, "localizacoes", freteId);
+
+  onSnapshot(ref, (snap) => {
+    if (!snap.exists()) {
+      localizacaoMotorista.innerHTML = "<p>Aguardando o motorista iniciar a localização.</p>";
+      return;
+    }
+
+    const loc = snap.data();
+
+    if (!loc.ativo) {
+      localizacaoMotorista.innerHTML = "<p>Localização pausada pelo motorista.</p>";
+      return;
+    }
+
+    const maps = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`;
+    const waze = `https://waze.com/ul?ll=${loc.lat},${loc.lng}&navigate=yes`;
+
+    localizacaoMotorista.innerHTML = `
+      <div class="frete-card">
+        <p><strong>Status:</strong> localização ativa</p>
+        <p><strong>Latitude:</strong> ${loc.lat}</p>
+        <p><strong>Longitude:</strong> ${loc.lng}</p>
+        <p><strong>Atualização:</strong> agora há poucos instantes</p>
+
+        <div class="actions">
+          <a class="btn primary" target="_blank" href="${maps}">Abrir no Google Maps</a>
+          <a class="btn secondary" target="_blank" href="${waze}">Abrir no Waze</a>
+        </div>
+      </div>
+    `;
+  });
+}
+
+window.iniciarLocalizacao = function () {
+  if (!navigator.geolocation) {
+    alert("Seu navegador não suporta localização.");
+    return;
+  }
+
+  salvarLocalizacaoAtual();
+
+  intervaloLocalizacao = setInterval(() => {
+    salvarLocalizacaoAtual();
+  }, 30000);
+
+  alert("Localização iniciada. Mantenha esta página aberta durante a viagem.");
+};
+
+async function salvarLocalizacaoAtual() {
+  navigator.geolocation.getCurrentPosition(
+    async (posicao) => {
+      const lat = posicao.coords.latitude;
+      const lng = posicao.coords.longitude;
+
+      try {
+        await setDoc(doc(db, "localizacoes", freteId), {
+          freteId,
+          motoristaId: usuarioAtual.uid,
+          gestorId: freteAtual.gestorId,
+          lat,
+          lng,
+          ativo: true,
+          atualizadoEm: serverTimestamp()
+        }, {
+          merge: true
+        });
+      } catch (erro) {
+        alert("Erro ao salvar localização: " + erro.message);
+      }
+    },
+    (erro) => {
+      alert("Não foi possível obter a localização: " + erro.message);
+    },
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 10000
+    }
+  );
+}
+
+window.pararLocalizacao = async function () {
+  if (intervaloLocalizacao) {
+    clearInterval(intervaloLocalizacao);
+    intervaloLocalizacao = null;
+  }
+
+  try {
+    await setDoc(doc(db, "localizacoes", freteId), {
+      freteId,
+      motoristaId: usuarioAtual.uid,
+      gestorId: freteAtual.gestorId,
+      ativo: false,
+      atualizadoEm: serverTimestamp()
+    }, {
+      merge: true
+    });
+
+    alert("Localização pausada.");
+  } catch (erro) {
+    alert("Erro ao parar localização: " + erro.message);
+  }
+};
 
 async function carregarInteressados() {
   listaInteressados.innerHTML = "<p>Carregando interessados...</p>";
