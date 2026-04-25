@@ -7,27 +7,47 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <header class="topbar">
-    <h2>Gestão Frete</h2>
-    <button id="btnSair" class="btn small danger">Sair</button>
+  <header class="app-header">
+    <div>
+      <strong>Gestão Frete</strong>
+      <span>Painel do Caminhoneiro</span>
+    </div>
+    <button id="btnSair" class="btn danger small">Sair</button>
   </header>
 
-  <main class="container">
-    <section class="panel">
-      <h1>Painel do Caminhoneiro</h1>
-      <p>Encontre fretes disponíveis e mantenha seu veículo atualizado.</p>
-
-      <div class="grid">
-        <a href="fretes.html" class="menu-card">
-          <h3>Fretes disponíveis</h3>
-          <p>Ver cargas abertas para transporte.</p>
-        </a>
-
-        <a href="veiculo.html" class="menu-card">
-          <h3>Meu veículo</h3>
-          <p>Cadastrar ou atualizar dados do caminhão.</p>
-        </a>
+  <main class="app-container">
+    <section class="welcome-card">
+      <div>
+        <h1>Olá, caminhoneiro</h1>
+        <p>Gerencie seus veículos, encontre fretes e acompanhe suas viagens.</p>
       </div>
+      <a href="fretes.html" class="btn primary">Buscar fretes</a>
+    </section>
+
+    <section class="dashboard-grid">
+      <a href="fretes.html" class="dash-card">
+        <span class="dash-icon">📦</span>
+        <h3>Fretes disponíveis</h3>
+        <p>Consulte cargas abertas por origem e destino.</p>
+      </a>
+
+      <a href="veiculo.html" class="dash-card">
+        <span class="dash-icon">🚛</span>
+        <h3>Meus veículos</h3>
+        <p>Cadastre, edite e defina seu veículo principal.</p>
+      </a>
+
+      <a href="fretes.html" class="dash-card">
+        <span class="dash-icon">✅</span>
+        <h3>Meus interesses</h3>
+        <p>Acompanhe fretes em que você demonstrou interesse.</p>
+      </a>
+
+      <a href="fretes.html" class="dash-card">
+        <span class="dash-icon">🛣️</span>
+        <h3>Fretes aprovados</h3>
+        <p>Veja viagens liberadas com endereço e rotas.</p>
+      </a>
     </section>
   </main>
 
